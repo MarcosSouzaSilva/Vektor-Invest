@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+ <html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Vektor Invest</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3CVQ7YZK5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-Q3CVQ7YZK5');
+</script>
+<body>
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="nav">
+            <div class="logo">
+                <h2>Vektor<span class="accent">Invest</span></h2>
+            </div>
+            <nav class="nav-links">
+                <a href="/">Início</a>
+                <a href="/">Análise</a>
+                <a href="#" class="profile-active">Meu Perfil</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">
+                    <span class="theme-icon sun">☀️</span>
+                    <span class="theme-icon moon">🌙</span>
+                </button>
+                <form class="login-form" th:action="@{/logout}" method="post">
+                    <button class="logout-btn" onclick="handleUserLogout()">Sair</button>
+                </form>
+            </nav>
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Profile Content -->
+<main class="profile-main">
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="profile-header-card" >
+            <div class="profile-avatar-section" th:each="usuario : ${user}">
+                <div class="profile-avatar">
+                    <span id="userInitials" th:text="${iniciais}"></span>
+                </div>
+                <div class="profile-info">
+                    <h1 id="userName" th:text="${usuario.name}"></h1>
+                    <p id="userEmail" th:text="${usuario.email}"></p>
+                    <span class="profile-badge" id="investorProfile">Investidor Moderado(Exemplo)</span>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <a th:href="@{/editUser}"><button class="btn-edit" onclick="editProfile()">✏️ Editar Perfil</button></a>
+            </div>
+        </div>
+
+        <!-- Profile Stats Cards -->
+        <div class="profile-stats-grid">
+            <div class="stat-card-profile">
+                <div class="stat-icon-profile">📊</div>
+                <div class="stat-content-profile">
+                    <h3 id="totalAnalyses" th:text="${analyseStocks}"> </h3>
+                    <p>Análises Realizadas</p>
+                    <span class="stat-change-profile positive">+<span th:text="${countRequestsByUserInWeek}"></span> esta semana</span>
+                </div>
+            </div>
+            <div class="stat-card-profile">
+                <div class="stat-icon-profile">⭐</div>
+                <div class="stat-content-profile">
+                    <h3 id="favoriteStocks">3</h3>
+                    <p>Ações Favoritas</p>
+                    <span class="stat-change-profile neutral" th:text="${analyseTop3Stocks}"></span>
+                </div>
+            </div>
+            <div class="stat-card-profile">
+                <div class="stat-icon-profile">📅</div>
+                <div class="stat-content-profile">
+                    <h3 id="memberSince" th:text="${createdMonths}"></h3>
+                        <p>Meses como Membro</p>
+                    <span class="stat-change-profile positive">Desde <span th:text="${created}"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Content Grid -->
+        <div class="profile-content-grid">
+            <!-- Left Column -->
+            <div class="profile-left-column">
+                <!-- Personal Information Card -->
+                <div class="profile-card">
+                    <div class="card-header">
+                        <h3>👤 Informações Pessoais</h3>
+                    </div>
+                    <div class="card-content" th:each="usuario : ${user}">
+                        <div class="info-row">
+                            <span class="info-label">Nome:</span>
+                            <span class="info-value" th:text="${usuario.name}"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">E-mail:</span>
+                            <span class="info-value" th:text="${usuario.email}"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Data de Nascimento:</span>
+                            <span class="info-value" th:text="${usuario.birthDate}"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Data de Cadastro:</span>
+                            <span class="info-value" th:text="${usuario.createdAt}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="profile-right-column">
+                <!-- Analysis History Card -->
+                <div class="profile-card full-height">
+
+                    <div class="card-header">
+
+                        <h3>📊 Histórico de Análises</h3>
+                        <div th:if="${infosIaResponse.totalPages > 1}">
+
+                            <a th:if="${infosIaResponse.hasPrevious()}"
+                               th:href="@{/profile(page=${infosIaResponse.number - 1})}">
+                                ←
+                            </a>
+
+                            <span th:text="${infosIaResponse.number + 1}"></span>
+
+                            <a th:if="${infosIaResponse.hasNext()}"
+                               th:href="@{/profile(page=${infosIaResponse.number + 1})}">
+                                →
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card-content">
+                        <div class="analysis-table">
+                            <div class="table-header">
+                                <span>Data</span>
+                                <span>Ação</span>
+                                <span>Recomendação</span>
+                                <span>Potencial Valorização</span>
+                                <span>Ações</span>
+                            </div>
+
+                            <div class="table-body">
+
+                                <div class="table-row" th:each="info : ${infosIaResponse.content}">
+                                    <span class="date-cell"
+                                          th:text="${info.createdAt != null ? #temporals.format(info.createdAt, 'dd/MM/yyyy') : '---'}">
+                                    </span>
+                                    <div class="stock-cell-profile">
+                                         <span class="stock-symbol-mini"
+                                               th:text="${info.ticker != null ? info.ticker : '---'}">
+                                         </span>
+                                        <span class="stock-name-mini"
+                                              th:text="${info.empresa != null ? info.empresa : '---'}">
+                                        </span>
+                                    </div>
+
+                                    <span class="recommendation-badge-mini buy"
+                                          th:text="${info.classificacao != null ? info.classificacao : '---'}">
+                                    </span>
+                                    <span class="result-mini positive"
+                                          th:text="${info.variacaoDia != null ? info.variacaoDia : '---'}">
+                                    </span>
+                                    <a th:href="@{/stock(id=${info.id})}" class="btn-details">
+                                        Ver Detalhes
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+
+<script src="/js/script.js"></script>
+<script src="/js/admin.js"></script>
+
+</body>
+</html>

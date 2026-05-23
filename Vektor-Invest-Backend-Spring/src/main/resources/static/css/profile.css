@@ -1,0 +1,748 @@
+/* Estilos específicos da página de perfil do usuário - Design Moderno */
+
+/* Profile Main Container */
+.profile-main {
+    padding: 6rem 0 2rem;
+    min-height: 100vh;
+    background: var(--background-secondary);
+    transition: var(--transition);
+}
+
+/* Profile Header Card */
+.profile-header-card {
+    background: var(--background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    transition: var(--transition);
+}
+
+.profile-avatar-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.profile-avatar:hover {
+    transform: scale(1.05);
+}
+
+.profile-info h1 {
+    color: var(--text-primary);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.profile-info p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.profile-badge {
+    background: var(--secondary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-edit {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.875rem;
+}
+
+.btn-edit:hover {
+    background: #d97706;
+    transform: translateY(-2px);
+}
+
+.btn-password {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.875rem;
+}
+
+.btn-password:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* Profile Stats Grid */
+.profile-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card-profile {
+    background: var(--background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: var(--transition);
+}
+
+.stat-card-profile:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-icon-profile {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.stat-content-profile h3 {
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.stat-content-profile p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-change-profile {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+}
+
+.stat-change-profile.positive {
+    background: rgba(5, 150, 105, 0.1);
+    color: var(--secondary-color);
+}
+
+.stat-change-profile.neutral {
+    background: rgba(107, 114, 128, 0.1);
+    color: var(--text-secondary);
+}
+
+/* Profile Content Grid */
+.profile-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.profile-left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profile-right-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Profile Cards */
+.profile-card {
+    background: var(--background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.profile-card.full-height {
+    height: 100%;
+}
+
+.card-header {
+    background: var(--background-secondary);
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-filter {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-filter:hover {
+    background: var(--primary-dark);
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+/* Personal Information */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.info-value {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* Investment Profile */
+.risk-section {
+    margin-bottom: 1.5rem;
+}
+
+.risk-indicator-profile {
+    margin-bottom: 1rem;
+}
+
+.risk-bar-profile {
+    width: 100%;
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.risk-fill-profile {
+    height: 100%;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.risk-fill-profile.moderate {
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+}
+
+.risk-label-profile {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.objectives-section h4 {
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.objective-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.objective-tag {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Analysis History Table */
+.analysis-table {
+    width: 100%;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--background-secondary);
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.table-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--background-secondary);
+    border-radius: var(--border-radius);
+    align-items: center;
+    transition: var(--transition);
+}
+
+.table-row:hover {
+    background: var(--border-color);
+    transform: translateX(2px);
+}
+
+.date-cell {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.stock-cell-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.stock-symbol-mini {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 0.75rem;
+    width: fit-content;
+}
+
+.stock-name-mini {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+.recommendation-badge-mini {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.recommendation-badge-mini.buy {
+    background: rgba(5, 150, 105, 0.1);
+    color: var(--secondary-color);
+}
+
+.recommendation-badge-mini.sell {
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--error-color);
+}
+
+.recommendation-badge-mini.hold {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--accent-color);
+}
+
+.result-mini {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.result-mini.positive {
+    color: var(--secondary-color);
+}
+
+.result-mini.negative {
+    color: var(--error-color);
+}
+
+.result-mini.neutral {
+    color: var(--accent-color);
+}
+
+.btn-details {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-details:hover {
+    background: var(--primary-dark);
+}
+
+/* Bottom Section */
+.profile-bottom-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+/* Configuration Sections */
+.config-section {
+    margin-bottom: 2rem;
+}
+
+.config-section:last-child {
+    margin-bottom: 0;
+}
+
+.config-section h4 {
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.toggle-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.toggle-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: var(--background-secondary);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.toggle-item:hover {
+    background: var(--border-color);
+}
+
+.toggle-item span {
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider-mini {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--border-color);
+    transition: var(--transition);
+    border-radius: 24px;
+}
+
+.toggle-slider-mini:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    transition: var(--transition);
+    border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider-mini {
+    background: var(--primary-color);
+}
+
+.toggle-switch input:checked + .toggle-slider-mini:before {
+    transform: translateX(20px);
+}
+
+/* Preferences */
+.preference-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.preference-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: var(--background-secondary);
+    border-radius: var(--border-radius);
+}
+
+.preference-item span {
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.preference-select {
+    background: var(--background);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.preference-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Security Actions */
+.security-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn-security {
+    background: var(--background-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-security:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.security-info-profile {
+    padding: 1rem;
+    background: var(--background-secondary);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--secondary-color);
+}
+
+.security-info-profile p {
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    margin: 0.25rem 0;
+}
+
+/* Profile Active Navigation */
+.profile-active {
+    color: var(--primary-color) !important;
+    font-weight: 600;
+}
+
+.profile-active::after {
+    width: 100% !important;
+}
+
+/* Logout Button */
+.logout-btn {
+    background: var(--error-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+    font-size: 0.875rem;
+}
+
+.logout-btn:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .profile-content-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .profile-header-card {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: center;
+    }
+
+    .profile-avatar-section {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .profile-actions {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-main {
+        padding: 5rem 0 2rem;
+    }
+
+    .profile-header-card {
+        padding: 1.5rem;
+    }
+
+    .profile-avatar-section {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .profile-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card-profile {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .table-header,
+    .table-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    .table-header {
+        display: none;
+    }
+
+    .table-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem;
+    }
+
+    .security-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-header-card {
+        padding: 1rem;
+    }
+
+    .profile-info h1 {
+        font-size: 1.5rem;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-edit,
+    .btn-password {
+        width: 100%;
+    }
+
+    .card-content {
+        padding: 1rem;
+    }
+
+    .preference-item {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    .preference-select {
+        width: 100%;
+    }
+}

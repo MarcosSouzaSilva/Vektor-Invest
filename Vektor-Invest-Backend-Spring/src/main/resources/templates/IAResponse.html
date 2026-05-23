@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise</title>
+    <link rel="stylesheet" href="/css/IAResponse.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container" th:each="resultado : ${result}">
+
+    <header class="header">
+        <button class="back-btn"><i class="fas fa-arrow-left"></i><a href="/">Voltar</a></button>
+        <div class="header-actions">
+            <button class="btn-outline"><i class="fas fa-sync-alt"></i> Regenerar</button>
+            <button class="btn-outline">Meu Perfil</button>
+        </div>
+    </header>
+
+    <div class="stock-info">
+        <div>
+            <div class="stock-title">
+                <h1 th:text="${resultado.ticker}"></h1>
+                <span class="badge">Ativo Financeiro</span>
+            </div>
+            <p class="company-name" th:text="${resultado.empresa}"></p>
+            <p class="date"><i class="far fa-calendar"></i> Análise Atualizada</p>
+        </div>
+        <div class="price-container">
+            <p class="price-label">Preço atual</p>
+            <h2 class="price-value" th:text="${resultado.precoAtual}"></h2>
+            <span class="price-change">
+                <i class="fas fa-chart-line"></i> <span th:text="${resultado.variacaoDia}"></span>
+            </span>
+        </div>
+    </div>
+
+    <section class="card summary-card">
+        <h3><i class="fas fa-chart-bar"></i> Resumo da análise</h3>
+        <p th:text="${resultado.resumo}"></p>
+    </section>
+
+    <h3 class="section-title">Indicadores</h3>
+    <div class="indicators-grid">
+        <div class="card indicator">
+            <span class="label"><i class="fas fa-chart-line"></i> P/L</span>
+            <span class="value" th:text="${resultado.pl}"></span>
+        </div>
+        <div class="card indicator">
+            <span class="label"><i class="fas fa-bullseye"></i> P/VP</span>
+            <span class="value" th:text="${resultado.pvp}"></span>
+        </div>
+        <div class="card indicator">
+            <span class="label"><i class="fas fa-dollar-sign"></i> DY</span>
+            <span class="value" th:text="${resultado.dividendYield}"></span>
+        </div>
+        <div class="card indicator">
+            <span class="label"><i class="fas fa-percent"></i> ROE</span>
+            <span class="value" th:text="${resultado.roe}"></span>
+        </div>
+    </div>
+
+    <h3 class="section-title">Análise</h3>
+    <div class="analysis-grid">
+        <div class="card analysis-positive">
+            <h4><i class="far fa-check-circle"></i> Pontos positivos</h4>
+            <ul>
+                <li th:each="ponto : ${resultado.pontosPositivos}" th:text="${ponto}"></li>
+            </ul>
+        </div>
+        <div class="card analysis-risks">
+            <h4><i class="fas fa-exclamation-triangle"></i> Riscos</h4>
+            <ul>
+                <li th:each="risco : ${resultado.riscos}" th:text="${risco}"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-grid">
+        <div class="card stat">
+            <i class="fas fa-dollar-sign icon-blue"></i>
+            <span class="label">Preço justo</span>
+            <span class="value" th:text="${resultado.precoJusto}"></span>
+        </div>
+        <div class="card stat">
+            <i class="fas fa-chart-line icon-blue"></i>
+            <span class="label">Potencial</span>
+            <span class="value-red" th:text="${resultado.potencialValorizacao}"></span>
+        </div>
+        <div class="card stat">
+            <i class="fas fa-tachometer-alt icon-blue"></i>
+            <span class="label">Score final</span>
+            <span class="value" th:text="${resultado.score}"></span>
+        </div>
+        <div class="card stat classification-card">
+            <i class="fas fa-award icon-yellow"></i>
+            <span class="label">Classificação</span>
+            <span class="status-badge">
+                <span class="dot"></span>
+               <span th:text="${resultado.classificacao}"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

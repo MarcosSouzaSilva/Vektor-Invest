@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vektor Invest - Análise Inteligente de Ações</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3CVQ7YZK5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-Q3CVQ7YZK5');
+    </script>
+</head>
+
+<body>
+<header class="header">
+
+    <div class="container">
+
+        <div class="nav">
+
+            <div class="logo">
+
+                <h2>Vektor<span class="accent">Invest</span></h2>
+
+            </div>
+
+            <nav class="nav-links">
+
+                <a href="#home">Início</a>
+
+                <a href="#analise">Análise</a>
+
+                <a href="#sobre">Sobre</a>
+
+                <a href="#contato">Contato</a>
+
+                <div th:if="${name == null}">
+                    <a href="/signUp" class="register-link">Sign up</a>
+                    <a href="/login" class="admin-link">Sig In</a>
+                </div>
+
+                <div class="profile" th:if="${name != null}">
+                    <a href="/profile" class="admin-link" th:text="${name}"></a>
+                </div>
+
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">
+                    <span class="theme-icon sun">☀️</span>
+                    <span class="theme-icon moon">🌙</span>
+                </button>
+
+            </nav>
+
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+    </div>
+</header>
+
+<section id="home" class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Análise Inteligente de Ações</h1>
+            <p class="hero-subtitle">Descubra se uma ação é um bom investimento com nossa análise baseada em dados de
+                mercado e indicadores técnicos.</p>
+            <div class="hero-cta">
+                <button class="btn-primary" onclick="scrollToAnalysis()">Analisar Ação</button>
+                <button class="btn-secondary">Saiba Mais</button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="stock-chart">
+                <div class="chart-bars">
+                    <div class="bar" style="height: 40%"></div>
+                    <div class="bar" style="height: 65%"></div>
+                    <div class="bar" style="height: 80%"></div>
+                    <div class="bar" style="height: 55%"></div>
+                    <div class="bar" style="height: 90%"></div>
+                    <div class="bar" style="height: 75%"></div>
+                    <div class="bar" style="height: 95%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="analise" class="analysis-section">
+
+    <div class="container">
+
+        <div class="section-header">
+            <h2>Análise de Ações</h2>
+            <p>Digite ou selecione o símbolo da ação que deseja analisar</p>
+        </div>
+
+        <div class="search-container">
+            <form class="search-form" th:action="@{/stock}" method="post" th:object="${stockDomain}">
+                <div class="input-group">
+
+                    <select class="custom-select" th:field="*{stockCode}">
+
+                        <option value="">Selecione uma ação</option>
+
+                        <option th:each="stocks : ${allStockIndex}"
+                                th:value="${stocks.stockCode}"
+                                th:text="${stocks.stockCode}">
+                        </option>
+
+                    </select>
+
+
+                    <button type="submit" class="search-btn">
+                        <span class="search-icon">🔍</span>
+                        Analisar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+
+        <div id="loadingIndicator" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Analisando dados de mercado...</p>
+        </div>
+
+        <div id="results" class="results hidden">
+            <div class="stock-card">
+                <div class="stock-header">
+                    <h3 id="stockName"></h3>
+                    <span id="stockSymbolDisplay" class="stock-symbol"></span>
+                </div>
+
+                <div class="stock-metrics">
+                    <div class="metric">
+                        <span class="metric-label">Preço Atual</span>
+                        <span id="currentPrice" class="metric-value"></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Variação (24h)</span>
+                        <span id="priceChange" class="metric-value"></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Volume</span>
+                        <span id="volume" class="metric-value"></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">P/L</span>
+                        <span id="peRatio" class="metric-value"></span>
+                    </div>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-header">
+                        <h4>Nossa Recomendação</h4>
+                    </div>
+                    <div id="recommendationBadge" class="recommendation-badge">
+                        <span id="recommendationText"></span>
+                    </div>
+                    <p id="recommendationReason" class="recommendation-reason"></p>
+                </div>
+
+                <div class="technical-indicators">
+                    <h4>Indicadores Técnicos</h4>
+                    <div class="indicators-grid">
+                        <div class="indicator">
+                            <span class="indicator-name">RSI</span>
+                            <div class="indicator-bar">
+                                <div id="rsiBar" class="indicator-fill"></div>
+                            </div>
+                            <span id="rsiValue" class="indicator-value"></span>
+                        </div>
+                        <div class="indicator">
+                            <span class="indicator-name">MACD</span>
+                            <span id="macdValue" class="indicator-status"></span>
+                        </div>
+                        <div class="indicator">
+                            <span class="indicator-name">Média Móvel</span>
+                            <span id="maValue" class="indicator-status"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Por que escolher a Vektor Invest?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Análise Técnica</h3>
+                <p>Indicadores técnicos avançados para uma análise completa das ações.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Dados em Tempo Real</h3>
+                <p>Informações atualizadas do mercado para decisões mais precisas.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Recomendações Precisas</h3>
+                <p>Algoritmos inteligentes que analisam múltiplos fatores de mercado.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Segurança Total</h3>
+                <p>Seus dados e análises protegidos com máxima segurança.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Vektor<span class="accent">Invest</span></h3>
+                <p>Sua plataforma de análise de investimentos mais confiável.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links Úteis</h4>
+                <ul>
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#analise">Análise</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                    <li><a href="register.html">Cadastro</a></li>
+                    <li><a href="login.html">Área Admin</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contato</h4>
+                <ul>
+                    <li>📧 contato@vektorinvest.com</li>
+                    <li>📞 (11) 9999-9999</li>
+                    <li>📍 São Paulo, SP</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Vektor Invest. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento - Vektor Invest</title>
+  <style>
+    :root {
+        --bg-color: #1a1a2e;
+        --card-bg-color: #2e2e4a;
+        --text-color: #e0e0e0;
+        --accent-color: #ff6b6b;
+        --border-color: #4a4a6e;
+    }
+
+    [data-theme="light"] {
+        --bg-color: #f0f2f5;
+        --card-bg-color: #ffffff;
+        --text-color: #333333;
+        --accent-color: #d63333;
+        --border-color: #e0e0e0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .header {
+        background-color: var(--card-bg-color);
+        padding: 20px 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo h2 {
+        margin: 0;
+        color: var(--text-color);
+    }
+
+    .logo .accent {
+        color: var(--accent-color);
+    }
+
+    .nav-links a {
+        color: var(--text-color);
+        text-decoration: none;
+        margin-left: 20px;
+        transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+        color: var(--accent-color);
+    }
+
+    .theme-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+    }
+
+    .login-section {
+        padding: 80px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+
+    .login-card {
+        background-color: var(--card-bg-color);
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .login-info {
+        background-color: var(--card-bg-color);
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .login-header, .qr-code-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .admin-icon {
+        font-size: 48px;
+        margin-bottom: 10px;
+        color: var(--accent-color);
+    }
+
+    .qr-code-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .qr-code-image {
+        width: 100%;
+        max-width: 250px;
+        height: auto;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        padding: 10px;
+        background-color: var(--card-bg-color);
+    }
+
+    .qr-code-header .admin-icon {
+        font-size: 48px;
+        color: var(--accent-color);
+        margin-bottom: 10px;
+    }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .login-footer a {
+        color: var(--accent-color);
+        text-decoration: none;
+    }
+
+    .info-features .info-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
+
+    .info-icon {
+        font-size: 32px;
+        margin-right: 15px;
+        color: var(--accent-color);
+    }
+
+    .info-item h4 {
+        margin: 0;
+        color: var(--text-color);
+    }
+
+    .info-item p {
+        margin: 5px 0 0;
+    }
+
+    @media (max-width: 768px) {
+        .login-container {
+            flex-direction: column;
+        }
+
+        .login-info {
+            margin-top: 30px;
+        }
+    }
+
+  </style>
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+  <div class="container">
+    <div class="nav">
+      <div class="logo">
+        <h2>Vektor<span class="accent">Invest</span></h2>
+      </div>
+      <nav class="nav-links">
+        <a href="/">Voltar ao Site</a>
+        <a href="/sigIn">Já tenho conta</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">
+          <span class="theme-icon sun">☀️</span>
+          <span class="theme-icon moon">🌙</span>
+        </button>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- Register Section -->
+<section class="login-section">
+  <div class="container">
+    <div class="login-container">
+      <!-- Card do QR Code -->
+      <div class="login-card">
+        <div class="qr-code-container">
+          <div class="qr-code-header">
+            <div class="admin-icon">🔗</div>
+            <h2>Pague com PIX</h2>
+            <p>Escaneie o QR Code abaixo para fazer seu pagamento</p>
+          </div>
+          <div class="qr-code-body">
+            <img src="/img/qrcode-pix.png" alt="QR Code para pagamento via PIX" class="qr-code-image">
+          </div>
+        </div>
+        <div class="login-footer">
+          <p>Já tem uma conta? <a href="/sigIn" class="forgot-password">Faça login</a></p>
+        </div>
+      </div>
+      <!-- /Card do QR Code -->
+
+      <div class="login-info">
+        <h3>Benefícios da Conta</h3>
+        <div class="info-features">
+          <div class="info-item">
+            <span class="info-icon">📊</span>
+            <div>
+              <h4>Análises Personalizadas</h4>
+              <p>Receba recomendações baseadas no seu perfil de investidor</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">📈</span>
+            <div>
+              <h4>Histórico de Análises</h4>
+              <p>Acompanhe todas as suas consultas e decisões anteriores</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🔔</span>
+            <div>
+              <h4>Alertas Inteligentes</h4>
+              <p>Seja notificado sobre oportunidades de investimento</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">💼</span>
+            <div>
+              <h4>Portfolio Virtual</h4>
+              <p>Simule investimentos e acompanhe performance</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function toggleTheme() {
+      const body = document.body;
+      const currentTheme = body.getAttribute('data-theme');
+      if (currentTheme === 'light') {
+          body.removeAttribute('data-theme');
+      } else {
+          body.setAttribute('data-theme', 'light');
+      }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+/* Estilos específicos da página de Termos de Uso */
+
+/* Terms Main Container */
+.terms-main {
+    padding: 6rem 0 2rem;
+    min-height: 100vh;
+    background: var(--background-secondary);
+    transition: var(--transition);
+}
+
+/* Terms Header */
+.terms-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.terms-header h1 {
+    color: var(--text-primary);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.terms-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+}
+
+.terms-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.terms-meta span {
+    padding: 0.5rem 1rem;
+    background: var(--background-secondary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+/* Terms Content */
+.terms-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.terms-section {
+    background: var(--background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    transition: var(--transition);
+}
+
+.terms-section:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.terms-section h2 {
+    color: var(--primary-color);
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+.terms-section h3 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    margin: 2rem 0 1rem 0;
+    font-weight: 600;
+}
+
+.terms-section h4 {
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    margin: 1.5rem 0 0.75rem 0;
+    font-weight: 600;
+}
+
+.terms-section p {
+    color: var(--text-primary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.terms-section ul {
+    color: var(--text-primary);
+    margin: 1rem 0 1.5rem 1.5rem;
+    line-height: 1.6;
+}
+
+.terms-section li {
+    margin-bottom: 0.75rem;
+    position: relative;
+}
+
+.terms-section li::marker {
+    color: var(--primary-color);
+}
+
+/* Highlight Boxes */
+.highlight-box {
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(5, 150, 105, 0.1));
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.highlight-box h4 {
+    color: var(--primary-color);
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.highlight-box p {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.warning-box {
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(245, 158, 11, 0.1));
+    border: 1px solid var(--error-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.warning-box h4 {
+    color: var(--error-color);
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.warning-box p {
+    margin: 0;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.info-box {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.1), rgba(245, 158, 11, 0.1));
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.info-box h4 {
+    color: var(--secondary-color);
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.info-box p {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.info-box .link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.info-box .link:hover {
+    text-decoration: underline;
+}
+
+/* Methodology Grid */
+.methodology-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.method-card {
+    background: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    transition: var(--transition);
+}
+
+.method-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary-color);
+}
+
+.method-card h4 {
+    color: var(--primary-color);
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.method-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* Contact Info */
+.contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+    background: var(--background-secondary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.contact-item strong {
+    color: var(--primary-color);
+    font-size: 0.875rem;
+}
+
+.contact-item span {
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+/* Final Section */
+.final-section {
+    border: 2px solid var(--primary-color);
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(5, 150, 105, 0.05));
+}
+
+.final-box {
+    text-align: center;
+}
+
+.final-box h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.final-box p {
+    margin-bottom: 0.75rem;
+}
+
+.final-box p:last-child {
+    margin-bottom: 0;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Back to Top */
+.back-to-top {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.back-to-top button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.back-to-top button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* Footer Adjustments */
+.footer {
+    margin-top: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .terms-content {
+        max-width: 100%;
+    }
+
+    .methodology-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .terms-main {
+        padding: 5rem 0 2rem;
+    }
+
+    .terms-header {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .terms-header h1 {
+        font-size: 2rem;
+    }
+
+    .terms-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .terms-section {
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .terms-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .methodology-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .contact-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .terms-header {
+        padding: 1rem;
+    }
+
+    .terms-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .terms-subtitle {
+        font-size: 1rem;
+    }
+
+    .terms-section {
+        padding: 1.5rem;
+    }
+
+    .terms-section h2 {
+        font-size: 1.25rem;
+    }
+
+    .terms-section ul {
+        margin-left: 1rem;
+    }
+
+    .highlight-box,
+    .warning-box,
+    .info-box {
+        padding: 1rem;
+    }
+
+    .method-card {
+        padding: 1rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .header,
+    .footer,
+    .back-to-top {
+        display: none;
+    }
+
+    .terms-main {
+        padding: 0;
+    }
+
+    .terms-section {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        break-inside: avoid;
+    }
+
+    .methodology-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
