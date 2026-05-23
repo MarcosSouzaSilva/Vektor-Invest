@@ -1,31 +1,21 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  backend:
-    build: .
-    container_name: vektor-backend
-    restart: always
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
     ports:
-      - "8081:8081"
-    depends_on:
-      - db
+      - "5672:5672"
+      - "15672:15672"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/vektordb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: admin
-      SERVER_PORT: 8081
-
-  db:
-    image: mysql:8.0
-    container_name: vektor-mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: vektordb
-    ports:
-      - "3307:3306"
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
     volumes:
-      - db_data:/var/lib/mysql
+      - rabbitmq_data:/var/lib/rabbitmq
+    restart: unless-stopped
 
 volumes:
-  db_data:
+  rabbitmq_data:
+
+
+#amqp://admin:admin123@localhost:5672 vou precisar usar

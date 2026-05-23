@@ -1,19 +1,9 @@
-# Etapa 1: Build da aplicação
-FROM maven:3.9.9-eclipse-temurin-22 AS builder
+FROM openjdk:17
 
 WORKDIR /app
 
-COPY . .
+COPY target/app.jar app.jar
 
-RUN mvn clean package
-
-# Etapa 2: Executar a aplicação
-FROM eclipse-temurin:22-jdk
-
-WORKDIR /app
-
-COPY --from=builder /app/target/*.jar app.jar
-
-EXPOSE 8081
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
