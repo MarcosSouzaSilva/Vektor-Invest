@@ -24,6 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         log.info("Info Users");
         log.info("Name " + user.getName());
         log.info("Email " + user.getEmail());
+        log.info("ROLE " + user.getRole());
 
         return new ConfigSecurity(
                 user.getId(),

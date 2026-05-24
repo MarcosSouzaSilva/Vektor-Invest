@@ -49,6 +49,7 @@ public class ConfigPathSecurity {
                                 "/js/**",
                                 "/img/**"
                         ).permitAll()
+                        .requestMatchers("/dashboard").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

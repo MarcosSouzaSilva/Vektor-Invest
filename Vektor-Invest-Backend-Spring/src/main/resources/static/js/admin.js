@@ -297,6 +297,23 @@ document.getElementById('addStockForm').addEventListener('submit', function(even
     closeAddStockModal();
 });
 
+function toggleTheme() {
+    // Adiciona ou remove a classe "dark-theme" na tag <body>
+    document.body.classList.toggle('dark-theme');
+
+    // Opcional: Salva a preferência do usuário no navegador
+    const isDark = document.body.classList.contains('dark-theme');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
+// Ao carregar a página, verifica se o usuário já tinha escolhido o tema escuro antes
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+});
+
 // Export functions for global use
 window.togglePassword = togglePassword;
 window.switchTab = switchTab;
