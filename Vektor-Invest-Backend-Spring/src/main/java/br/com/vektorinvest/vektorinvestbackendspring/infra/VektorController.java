@@ -41,8 +41,8 @@ public class VektorController {
     // ----------------------------
 
     @GetMapping
-    public ModelAndView showHomePage(@AuthenticationPrincipal ConfigSecurity userDetails) {
-        return indexUseCaseInterface.showHomePage(userDetails);
+    public ModelAndView showHomePage() {
+        return indexUseCaseInterface.showHomePage();
     }
 
     @GetMapping("/terms")
@@ -51,8 +51,8 @@ public class VektorController {
     }
 
     @PostMapping("/stock")
-    public ModelAndView analyzeStock(@AuthenticationPrincipal ConfigSecurity userDetails,@ModelAttribute("stockDomain") StockDomain stockDomain) {
-        return indexUseCaseInterface.stockAnalysis(userDetails, stockDomain);
+    public ModelAndView analyzeStock(@ModelAttribute("stockDomain") StockDomain stockDomain) {
+        return indexUseCaseInterface.stockAnalysis(stockDomain);
     }
 
     // ----------------------------
@@ -80,23 +80,23 @@ public class VektorController {
     // ----------------------------
 
     @GetMapping("/profile")
-    public ModelAndView showProfile(@AuthenticationPrincipal ConfigSecurity userDetails, @RequestParam(defaultValue = "0") int page, Users user) {
-        return profileUseCaseInterface.showProfile(userDetails, page, user);
+    public ModelAndView showProfile(@RequestParam(defaultValue = "0") int page, Users user) {
+        return profileUseCaseInterface.showProfile(page, user);
     }
 
     @GetMapping("/editUser")
-    public ModelAndView showEditProfilePage(@AuthenticationPrincipal ConfigSecurity userDetails) {
-        return profileUseCaseInterface.showEditProfilePage(userDetails);
+    public ModelAndView showEditProfilePage() {
+        return profileUseCaseInterface.showEditProfilePage();
     }
 
     @PostMapping("/editUser")
-    public ModelAndView processEditProfile(@AuthenticationPrincipal ConfigSecurity userDetails, @ModelAttribute("usuario") @Valid UsersEditDomain usersEditDomain, BindingResult bindingResult) {
-        return profileUseCaseInterface.processEditProfile(userDetails, usersEditDomain, bindingResult);
+    public ModelAndView processEditProfile(@ModelAttribute("usuario") @Valid UsersEditDomain usersEditDomain, BindingResult bindingResult) {
+        return profileUseCaseInterface.processEditProfile(usersEditDomain, bindingResult);
     }
 
     @GetMapping("/stock")
-    public ModelAndView generatedContent(@RequestParam UUID id, @AuthenticationPrincipal ConfigSecurity userDetails){
-        return profileUseCaseInterface.generatedContent(id, userDetails);
+    public ModelAndView generatedContent(@RequestParam UUID id){
+        return profileUseCaseInterface.generatedContent(id);
     }
 
     // ----------------------------
@@ -104,13 +104,13 @@ public class VektorController {
     // ----------------------------
 
     @GetMapping("/dashboard")
-    public ModelAndView showDashboard(UsersSignUpDomain dashboard, @AuthenticationPrincipal ConfigSecurity userDetails, AllStockDomain allStockDomain) {
-        return usersAdminUseCaseInterface.showDashboard(dashboard, userDetails, allStockDomain);
+    public ModelAndView showDashboard(UsersSignUpDomain dashboard, AllStockDomain allStockDomain) {
+        return usersAdminUseCaseInterface.showDashboard(dashboard, allStockDomain);
     }
 
     @GetMapping("/editUserAdmin/{email}")
-    public ModelAndView showEditUserAdminPage(@AuthenticationPrincipal ConfigSecurity userDetails, @PathVariable String email) {
-        return usersAdminUseCaseInterface.showEditUserAdminPage(userDetails, email);
+    public ModelAndView showEditUserAdminPage(@PathVariable String email) {
+        return usersAdminUseCaseInterface.showEditUserAdminPage(email);
     }
 
     @GetMapping("/editStock/{stockCode}")

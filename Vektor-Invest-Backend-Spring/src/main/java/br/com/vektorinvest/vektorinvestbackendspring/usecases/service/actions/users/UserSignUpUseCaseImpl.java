@@ -2,6 +2,7 @@ package br.com.vektorinvest.vektorinvestbackendspring.usecases.service.actions.u
 
 import br.com.vektorinvest.vektorinvestbackendspring.data.mapper.UserDataMapper;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.UsersSignUpDomain;
+import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.AuthProvider;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.gateway.UserGateway;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.interfaces.UserSignUpUseCase;
 import jakarta.servlet.http.HttpServletResponse;

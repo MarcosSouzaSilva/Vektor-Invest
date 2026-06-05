@@ -8,8 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 public interface IndexUseCase {
 
-    ModelAndView showHomePage(ConfigSecurity userDetails);
+    ModelAndView showHomePage();
 
-    ModelAndView stockAnalysis(ConfigSecurity userDetails, StockDomain stock);
+    ModelAndView stockAnalysis(StockDomain stock);
 
 }

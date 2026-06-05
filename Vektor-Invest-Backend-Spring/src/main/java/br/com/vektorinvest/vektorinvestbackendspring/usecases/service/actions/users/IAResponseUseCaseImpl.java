@@ -24,14 +24,14 @@ public class IAResponseUseCaseImpl implements IAResponseUseCase {
     private String urlPythonApi;
 
     @Override
-    public ModelAndView showPage(ConfigSecurity userDetails, String stock) {
+    public ModelAndView showPage(String stock) {
         IAGenerateMessageDomain response = webClient.get()
                 .uri(urlPythonApi +"/analise/"+ stock)
                 .retrieve()
                 .bodyToMono(IAGenerateMessageDomain.class)
                 .block();
 
-        var iaResponse = userGateway.generateIAResponsePage(userDetails, stock, response);
+        var iaResponse = userGateway.generateIAResponsePage(stock, response);
 
         log.info("Resposta da IA gerada com sucesso: {}", response);
 

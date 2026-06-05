@@ -6,6 +6,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 public interface IAResponseUseCase {
 
-    ModelAndView showPage(ConfigSecurity userDetails, String stock);
+    ModelAndView showPage(String stock);
 
 }

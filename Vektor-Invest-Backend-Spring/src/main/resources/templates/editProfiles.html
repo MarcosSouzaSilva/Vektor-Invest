@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,13 +94,14 @@
 
         <div class="form-group">
             <label for="name" >Nome:</label>
-            <input type="text" th:field="*{name}" id="name" name="name" required>
+            <input type="text" th:field="*{name}" id="name" required>
         </div>
 
         <div class="form-group">
-            <label for="email">E-mail:</label>
-            <input type="email" th:field="*{email}" id="email" name="email"  required>
-            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+            <label for="date">Data de nascimento:</label>
+            <span th:text="${#temporals.format(usuario.birthDate, 'dd/MM/yyyy')}"></span>
+            <input type="date" th:field="*{birthDate}">
+            <span th:if="${param.error}" class="error"></span>
         </div>
 
         <button type="submit">Salvar Alterações</button>

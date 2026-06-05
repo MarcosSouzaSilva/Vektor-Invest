@@ -113,11 +113,14 @@
                         </div>
                         <div class="info-row">
                             <span class="info-label">Data de Nascimento:</span>
-                            <span class="info-value" th:text="${usuario.birthDate}"></span>
+                            <span class="info-value"
+                                  th:text="${#temporals.format(usuario.birthDate, 'dd/MM/yyyy')}"></span>
                         </div>
+
                         <div class="info-row">
                             <span class="info-label">Data de Cadastro:</span>
-                            <span class="info-value" th:text="${usuario.createdAt}"></span>
+                            <span class="info-value"
+                                  th:text="${#temporals.format(usuario.createdAt, 'dd/MM/yyyy')}"></span>
                         </div>
                     </div>
                 </div>

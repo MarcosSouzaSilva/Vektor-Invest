@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public interface AdminGateway {
 
 
-    ModelAndView dashboard(UsersSignUpDomain dashboard, ConfigSecurity userDetails, ModelAndView mv, AllStockDomain allStockDomain);
+    ModelAndView dashboard(UsersSignUpDomain dashboard, ModelAndView mv, AllStockDomain allStockDomain);
 
     AllStocks createStocks(AllStockDomain stock, BindingResult bindingResult);
 
@@ -30,6 +30,6 @@ public interface AdminGateway {
 
     AllStocks editStock(AllStocks stocks, BindingResult bindingResult);
 
-    ModelAndView profilePageAdmin(ModelAndView mv, ConfigSecurity userDetails, String email);
+    ModelAndView profilePageAdmin(ModelAndView mv, String email);
 
 }

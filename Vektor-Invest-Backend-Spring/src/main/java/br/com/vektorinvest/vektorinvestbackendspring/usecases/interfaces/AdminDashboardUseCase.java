@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 public interface AdminDashboardUseCase {
 
 
-    ModelAndView showDashboard(UsersSignUpDomain dashboard, ConfigSecurity userDetails, AllStockDomain allStockDomain);
+    ModelAndView showDashboard(UsersSignUpDomain dashboard, AllStockDomain allStockDomain);
 
     ModelAndView processCreateStock(AllStockDomain stock, BindingResult bindingResult);
 
@@ -23,7 +23,7 @@ public interface AdminDashboardUseCase {
 
     ModelAndView showEditStockPage(String stockCode);
 
-    ModelAndView showEditUserAdminPage(ConfigSecurity userDetails, String email);
+    ModelAndView showEditUserAdminPage(String email);
 
 
 }

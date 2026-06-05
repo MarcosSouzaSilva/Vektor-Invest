@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public interface UserGateway {
 
-    ModelAndView loadHomePage(ConfigSecurity userDetails);
+    ModelAndView loadHomePage();
 
     Users registerUser(Users userDomain);
 
@@ -21,13 +21,13 @@ public interface UserGateway {
 
     Stocks analyzeStock(StockDomain userDomain);
 
-    ModelAndView loadUserProfile(ConfigSecurity userDetails,int page, ModelAndView modelAndView);
+    ModelAndView loadUserProfile(int page, ModelAndView modelAndView);
 
-    ModelAndView loadProfileEditPage(ConfigSecurity userDetails, ModelAndView mv);
+    ModelAndView loadProfileEditPage(ModelAndView mv);
 
-    Users updateUserProfile(ConfigSecurity userDetails, UsersEditDomain user, BindingResult bindingResult);
+    Users updateUserProfile( UsersEditDomain user, BindingResult bindingResult);
 
-    ModelAndView generateIAResponsePage(ConfigSecurity userDetails,String stock, IAGenerateMessageDomain response);
+    ModelAndView generateIAResponsePage(String stock, IAGenerateMessageDomain response);
 
-    ModelAndView generatedContent(UUID uuid, ConfigSecurity userDetails);
+    ModelAndView generatedContent(UUID uuid);
 }

@@ -26,11 +26,11 @@ public class UsersAdminUseCaseImpl implements AdminDashboardUseCase {
 
 
     @Override
-    public ModelAndView showDashboard(UsersSignUpDomain dashboard, ConfigSecurity userDetails, AllStockDomain allStockDomain) {
+    public ModelAndView showDashboard(UsersSignUpDomain dashboard, AllStockDomain allStockDomain) {
 
         ModelAndView mv = new ModelAndView("adminDashboard");
 
-        adminGateway.dashboard(dashboard, userDetails, mv, allStockDomain);
+        adminGateway.dashboard(dashboard, mv, allStockDomain);
 
         return mv;
     }
@@ -100,11 +100,11 @@ public class UsersAdminUseCaseImpl implements AdminDashboardUseCase {
     }
 
     @Override
-    public ModelAndView showEditUserAdminPage(ConfigSecurity userDetails, String email) {
+    public ModelAndView showEditUserAdminPage(String email) {
 
         ModelAndView mv = new ModelAndView("editProfilesAdmin");
 
-        adminGateway.profilePageAdmin(mv, userDetails, email);
+        adminGateway.profilePageAdmin(mv, email);
 
         return mv;
     }

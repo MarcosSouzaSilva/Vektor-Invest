@@ -25,7 +25,8 @@ public class UserDataMapper {
                 .enabled(true) // Usa o enabled do domínio, padrão para true se for nulo
                 .birthDate(domain.getBirthDate())
                 .updatedAt(getAnoAtualComoLocalDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()))
-                .role(Role.USER)
+                .provider(AuthProvider.LOCAL)
+                .role(Role.ADMIN)
                 .build();
     }
 

@@ -2,7 +2,6 @@ package br.com.vektorinvest.vektorinvestbackendspring.utils;
 
 import br.com.vektorinvest.vektorinvestbackendspring.data.entity.Users;
 import br.com.vektorinvest.vektorinvestbackendspring.data.repository.UsersRepository;
-import br.com.vektorinvest.vektorinvestbackendspring.infra.security.ConfigSecurity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,28 +14,26 @@ public class UserUtils {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth == null  || auth instanceof AnonymousAuthenticationToken) {
+        if (auth == null || auth instanceof AnonymousAuthenticationToken) {
 
             return null;
         }
 
         Object principal = auth.getPrincipal();
 
-        // 🔐 Login normal + remember-me
         if (principal instanceof UserDetails userDetails) {
 
-            return usersRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+            return usersRepository.findByEmail(userDetails.getUsername()).orElseGet(() -> null);
         }
 
-        // Login Google
+
         if (principal instanceof OAuth2User oauthUser) {
 
             String email = oauthUser.getAttribute("email");
 
-            return usersRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+            return usersRepository.findByEmail(email).orElse(null );
         }
 
         return null;
     }
-
 }

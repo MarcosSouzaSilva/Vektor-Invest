@@ -27,12 +27,12 @@ public class IndexUseCaseImpl implements IndexUseCase {
 
 
     @Override
-    public ModelAndView showHomePage(ConfigSecurity userDetails) {
-        return userGateway.loadHomePage(userDetails);
+    public ModelAndView showHomePage() {
+        return userGateway.loadHomePage();
     }
 
     @Override
-    public ModelAndView stockAnalysis(ConfigSecurity userDetails, StockDomain stockDomain) {
+    public ModelAndView stockAnalysis(StockDomain stockDomain) {
         var id = SecurityContextHolder.getContext().getAuthentication();
 
         if (id == null) {
@@ -49,7 +49,7 @@ public class IndexUseCaseImpl implements IndexUseCase {
         //aqui pra baixo ele foi aprovado o pagamento, ou seja, a acao sera analisada
 
         log.warn("Pagamento aprovado ! Gerando resposta agora");
-        return iaResponseUseCase.showPage(userDetails, stocks.getStock());
+        return iaResponseUseCase.showPage(stocks.getStock());
     }
 
 }

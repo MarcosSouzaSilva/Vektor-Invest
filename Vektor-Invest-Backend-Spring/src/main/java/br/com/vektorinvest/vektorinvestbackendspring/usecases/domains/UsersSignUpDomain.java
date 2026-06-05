@@ -36,7 +36,7 @@ public class UsersSignUpDomain {
 
     private Boolean enabled;
 
-    @NotNull(message = "Sua idade não cumpre o requisito mínimo de 18 anos.")
+    @NotNull(message = "Idade mínima não atendida")
     @MinAge(18)
     private LocalDate birthDate;
 

@@ -35,7 +35,7 @@ public class AdminDataImpl implements AdminGateway {
     private final IAResponseRepository iaResponseRepository;
 
     @Override
-    public ModelAndView dashboard(UsersSignUpDomain dashboard, ConfigSecurity userDetails, ModelAndView mv, AllStockDomain allStockDomain) {
+    public ModelAndView dashboard(UsersSignUpDomain dashboard, ModelAndView mv, AllStockDomain allStockDomain) {
 
         var nameCookie = UserUtils.getUserOrThrow(usersRepository);
 
@@ -144,7 +144,7 @@ public class AdminDataImpl implements AdminGateway {
     }
 
     @Override
-    public ModelAndView profilePageAdmin(ModelAndView mv, ConfigSecurity userDetails, String email) {
+    public ModelAndView profilePageAdmin(ModelAndView mv, String email) {
 
         var id = usersRepository.findByEmail(email);
 

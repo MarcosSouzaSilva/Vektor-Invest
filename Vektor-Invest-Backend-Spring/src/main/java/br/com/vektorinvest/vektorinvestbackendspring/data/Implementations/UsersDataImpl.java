@@ -8,6 +8,7 @@ import br.com.vektorinvest.vektorinvestbackendspring.data.repository.*;
 import br.com.vektorinvest.vektorinvestbackendspring.infra.security.ConfigSecurity;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.*;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.AuthProvider;
+import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.Role;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.gateway.UserGateway;
 import br.com.vektorinvest.vektorinvestbackendspring.utils.UserUtils;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 
+import static br.com.vektorinvest.vektorinvestbackendspring.data.mapper.UserDataMapper.getAnoAtualComoLocalDate;
+
 @Component
 @AllArgsConstructor
 @Log4j2
@@ -46,8 +49,7 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
 
     private final AllStocksRepository allStocksRepository;
 
-    private final PasswordEncoder encoder;
-
+    private final PasswordEncoder passwordEncoder;
 
     private ModelAndView safeExecute(Supplier<ModelAndView> action) {
         try {
@@ -64,7 +66,7 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
 
 
     @Override
-    public ModelAndView loadHomePage(ConfigSecurity userDetails) {
+    public ModelAndView loadHomePage() {
 
         ModelAndView mv = new ModelAndView("index");
 
@@ -91,18 +93,8 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
 
         var userOpt = usersRepository.findByEmail(userDomain.getEmail());
 
-        if (userOpt.isEmpty()) {
-            bindingResult.rejectValue("password", "error.usersDomain", "Email ou senha incorreto");
-            return null;
-        }
 
         Users user = userOpt.get();
-
-        if (!encoder.matches(userDomain.getPassword(), user.getPassword())) {
-            bindingResult.rejectValue("password", "error.usersDomain", "Email ou senha incorreto");
-            log.warn("Email ou senha incorreto");
-            return null;
-        }
 
         user.setUpdatedAt(LocalDate.now());
         return usersRepository.save(user);
@@ -124,7 +116,7 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
     }
 
     @Override
-    public ModelAndView loadUserProfile(ConfigSecurity userDetails, int page, ModelAndView mv) {
+    public ModelAndView loadUserProfile(int page, ModelAndView mv) {
 
         return safeExecute(() -> {
 
@@ -157,15 +149,16 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
     }
 
     @Override
-    public ModelAndView loadProfileEditPage(ConfigSecurity userDetails, ModelAndView mv) {
+    public ModelAndView loadProfileEditPage(ModelAndView mv) {
 
         Users user = UserUtils.getUserOrThrow(usersRepository);
 
         return safeExecute(() -> {
 
             UsersEditDomain edit = new UsersEditDomain();
-            edit.setEmail(user.getEmail());
+
             edit.setName(user.getName());
+            edit.setBirthDate(user.getBirthDate());
 
             mv.addObject("usuario", edit);
             return mv;
@@ -173,20 +166,12 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
     }
 
     @Override
-    public Users updateUserProfile(ConfigSecurity userDetails, UsersEditDomain edit, BindingResult bindingResult) {
+    public Users updateUserProfile(UsersEditDomain edit, BindingResult bindingResult) {
 
         Users user = UserUtils.getUserOrThrow(usersRepository);
 
-        boolean availableEmail = user.getEmail().equals(edit.getEmail())
-                || usersRepository.findByEmail(edit.getEmail()).isEmpty();
-
-        if (!availableEmail) {
-            bindingResult.rejectValue("email", "error.usersDomain", "Já existe um usuário com este email");
-            return null;
-        }
-
         user.setName(edit.getName());
-        user.setEmail(edit.getEmail());
+        user.setBirthDate(edit.getBirthDate());
         user.setUpdatedAt(LocalDate.now());
 
         return usersRepository.save(user);
@@ -194,7 +179,7 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
 
 
     @Override
-    public ModelAndView generateIAResponsePage(ConfigSecurity userDetails, String stock, IAGenerateMessageDomain response) {
+    public ModelAndView generateIAResponsePage(String stock, IAGenerateMessageDomain response) {
 
         return safeExecute(() -> {
 
@@ -217,15 +202,15 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
     }
 
     @Override
-    public ModelAndView generatedContent(UUID uuid, ConfigSecurity userDetails) {
+    public ModelAndView generatedContent(UUID uuid) {
 
         return safeExecute(() -> {
 
             var response = iaResponseRepository.findById(uuid)
                     .orElseThrow(() -> new RuntimeException("Response not found"));
 
-            // 🔒 SEGURANÇA
-            if (!response.getUser().getId().equals(userDetails.getId())) {
+
+            if (!response.getUser().getId().equals(UserUtils.getUserOrThrow(usersRepository).getId())) {
                 throw new RuntimeException("Acesso negado");
             }
 
@@ -247,7 +232,13 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
                 .orElseGet(() -> {
                     Users newUser = new Users();
                     newUser.setEmail(email);
+                    newUser.setName(oauthUser.getAttribute("name"));
+                    newUser.setBirthDate(LocalDate.of(2000, 5, 10));
+                    newUser.setEnabled(true);
+                    newUser.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
                     newUser.setProvider(AuthProvider.GOOGLE);
+                    newUser.setUpdatedAt(getAnoAtualComoLocalDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()));
+                    newUser.setRole(Role.USER);
                     return usersRepository.save(newUser);
                 });
 

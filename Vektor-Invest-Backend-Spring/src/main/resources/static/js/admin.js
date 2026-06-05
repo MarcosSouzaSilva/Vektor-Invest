@@ -297,6 +297,30 @@ document.getElementById('addStockForm').addEventListener('submit', function(even
     closeAddStockModal();
 });
 
+// Função para abrir o pop-up (Modal)
+function showAddStockModal() {
+    const modal = document.getElementById('addStockModal');
+    if (modal) {
+        modal.classList.add('open');
+    }
+}
+
+// Função para fechar o pop-up (Modal)
+function closeAddStockModal() {
+    const modal = document.getElementById('addStockModal');
+    if (modal) {
+        modal.classList.remove('open');
+    }
+}
+
+// Opcional: Fecha o pop-up se o usuário clicar fora da caixa branca
+window.onclick = function(event) {
+    const modal = document.getElementById('addStockModal');
+    if (event.target === modal) {
+        modal.classList.remove('open');
+    }
+}
+
 function toggleTheme() {
     // Adiciona ou remove a classe "dark-theme" na tag <body>
     document.body.classList.toggle('dark-theme');

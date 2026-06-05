@@ -21,26 +21,26 @@ public class ProfileUseCaseImpl implements ProfileUseCase {
     private final UserGateway userGateway;
 
     @Override
-    public ModelAndView showProfile(ConfigSecurity userDetails, int page, Users user) {
+    public ModelAndView showProfile(int page, Users user) {
         ModelAndView mv = new ModelAndView("profile");
 
-        return userGateway.loadUserProfile(userDetails, page, mv);
+        return userGateway.loadUserProfile(page, mv);
     }
 
 
 
     @Override
-    public ModelAndView showEditProfilePage(ConfigSecurity userDetails) {
+    public ModelAndView showEditProfilePage() {
         ModelAndView mv = new ModelAndView("editProfiles");
 
-        return userGateway.loadProfileEditPage(userDetails, mv);
+        return userGateway.loadProfileEditPage(mv);
     }
 
     @Override
-    public ModelAndView processEditProfile(ConfigSecurity userDetails, UsersEditDomain user, BindingResult bindingResult) {
+    public ModelAndView processEditProfile(UsersEditDomain user, BindingResult bindingResult) {
         ModelAndView mv = new ModelAndView("editProfiles");
 
-        var users = userGateway.updateUserProfile(userDetails, user, bindingResult);
+        var users = userGateway.updateUserProfile(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
             mv.addObject("usuario", user);
@@ -53,11 +53,11 @@ public class ProfileUseCaseImpl implements ProfileUseCase {
     }
 
     @Override
-    public ModelAndView generatedContent(UUID uuid, ConfigSecurity userDetails) {
+    public ModelAndView generatedContent(UUID uuid) {
 
-        userGateway.generatedContent(uuid, userDetails);
+        userGateway.generatedContent(uuid);
 
-        return userGateway.generatedContent(uuid, userDetails);
+        return userGateway.generatedContent(uuid);
     }
 
 

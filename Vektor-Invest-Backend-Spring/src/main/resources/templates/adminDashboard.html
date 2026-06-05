@@ -17,10 +17,7 @@
                 <span class="user-avatar">👤</span>
                 <span id="userName" th:text="${name}">Usuário</span>
             </div>
-            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">
-                <span class="theme-icon sun">☀️</span>
-            </button>
-            <form class="login-form" th:action="@{/logout}" method="post">
+            <form th:action="@{/logout}" method="post">
                 <button type="submit" class="logout-btn">Sair</button>
             </form>
         </nav>
@@ -63,10 +60,8 @@
 
         <div class="dashboard-tabs">
             <div class="tab-buttons">
-                <button class="tab-btn active" onclick="switchTab('analytics')">📊 Analytics</button>
-                <button class="tab-btn" onclick="switchTab('users')">👥 Usuários</button>
+                <button class="tab-btn active" onclick="switchTab('users')">👥 Usuários</button>
                 <button class="tab-btn" onclick="switchTab('stocks')">Layout Ações</button>
-                <button class="tab-btn" onclick="switchTab('settings')">⚙️ Configurações</button>
             </div>
         </div>
 
@@ -147,7 +142,7 @@
         <div id="settings" class="tab-content">
             <div class="settings-section">
                 <div class="section-header">
-                    <h3>Configurações do Systema</h3>
+                    <h3>Configurações do Sistema</h3>
                 </div>
                 <div class="settings-grid">
                     <div class="setting-card">
@@ -212,7 +207,7 @@
     <div class="modal-content">
         <span class="close-button" onclick="closeAddStockModal()">&times;</span>
         <h2>Adicionar Nova Ação</h2>
-        <form th:action="@{/vektor/createStocksForm}" method="post" th:object="${allStockDomain}">
+        <form th:action="@{/createStocksForm}" method="post" th:object="${allStockDomain}">
             <div class="form-group">
                 <label for="stockCode">Símbolo da Ação:</label>
                 <input type="text" id="stockCode" th:field="*{stockCode}" placeholder="Ex: PETR4" required>
