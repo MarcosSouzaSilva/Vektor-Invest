@@ -5,7 +5,9 @@ import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.UsersSignU
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.AuthProvider;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.gateway.UserGateway;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.interfaces.UserSignUpUseCase;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,12 +23,15 @@ public class UserSignUpUseCaseImpl implements UserSignUpUseCase {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public ModelAndView processSignUp(UsersSignUpDomain userDomain, BindingResult bindingResult, HttpServletResponse response)  {
-        ModelAndView modelAndView = new ModelAndView("signUp");
+    public ModelAndView processSignUp(UsersSignUpDomain userDomain, BindingResult bindingResult, HttpSession httpSession) {
 
-        var user = UserDataMapper.convert(userDomain);
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("signUp");
+        }
 
-        if (bindingResult.hasErrors()) return modelAndView;
+        boolean googleUser = "google".equals(httpSession.getAttribute("google"));
+
+        var user = googleUser ? UserDataMapper.convertGoogle(userDomain) : UserDataMapper.convert(userDomain);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -36,9 +41,15 @@ public class UserSignUpUseCaseImpl implements UserSignUpUseCase {
     }
 
     @Override
-    public ModelAndView showSignUpPage(UsersSignUpDomain usersSignUpDomain) {
+    public ModelAndView showSignUpPage(UsersSignUpDomain usersSignUpDomain, HttpSession httpSession) {
 
-        ModelAndView modelAndView = new ModelAndView("signUp.html");
+        ModelAndView modelAndView = new ModelAndView("signUp");
+
+        usersSignUpDomain.setName((String) httpSession.getAttribute("googleName"));
+        usersSignUpDomain.setEmail((String) httpSession.getAttribute("googleEmail"));
+
+        httpSession.removeAttribute("googleName");
+        httpSession.removeAttribute("googleEmail");
 
         modelAndView.addObject("signUp", usersSignUpDomain);
 

@@ -10,6 +10,7 @@ import br.com.vektorinvest.vektorinvestbackendspring.data.repository.UsersReposi
 import br.com.vektorinvest.vektorinvestbackendspring.infra.security.ConfigSecurity;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.AllStockDomain;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.UsersSignUpDomain;
+import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.ActivityStatus;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.Role;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.gateway.AdminGateway;
 import br.com.vektorinvest.vektorinvestbackendspring.utils.UserUtils;
@@ -103,7 +104,7 @@ public class AdminDataImpl implements AdminGateway {
 
     @Override
     public BigDecimal usersActive() {
-        return usersRepository.getEnabledTrue(true);
+        return usersRepository.getEnabledTrue(ActivityStatus.ACTIVE);
     }
 
     @Override

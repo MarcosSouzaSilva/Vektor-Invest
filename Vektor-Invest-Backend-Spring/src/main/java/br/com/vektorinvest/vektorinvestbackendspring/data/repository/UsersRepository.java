@@ -1,6 +1,7 @@
 package br.com.vektorinvest.vektorinvestbackendspring.data.repository;
 
 import br.com.vektorinvest.vektorinvestbackendspring.data.entity.Users;
+import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.ActivityStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,7 +25,7 @@ public interface UsersRepository extends JpaRepository <Users, UUID> {
     Integer findMonthsSinceRegistration(@Param("userId") UUID userId);
 
     @Query("SELECT COUNT(*) AS s FROM Users u WHERE u.enabled = :enabled")
-    BigDecimal getEnabledTrue(@Param("enabled") Boolean enabled);
+    BigDecimal getEnabledTrue(@Param("enabled") ActivityStatus enabled);
 
     @Query(value = """
     SELECT CONCAT(

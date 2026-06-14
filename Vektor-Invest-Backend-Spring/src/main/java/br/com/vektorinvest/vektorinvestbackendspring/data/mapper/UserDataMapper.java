@@ -3,6 +3,7 @@ package br.com.vektorinvest.vektorinvestbackendspring.data.mapper;
 import br.com.vektorinvest.vektorinvestbackendspring.data.entity.Users;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.UsersInfoDomain;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.UsersSignUpDomain;
+import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.ActivityStatus;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.AuthProvider;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.Role;
 
@@ -22,11 +23,27 @@ public class UserDataMapper {
                 .name(domain.getName())
                 .email(domain.getEmail())
                 .password(domain.getPassword())
-                .enabled(true) // Usa o enabled do domínio, padrão para true se for nulo
+                .enabled(ActivityStatus.ACTIVE)
                 .birthDate(domain.getBirthDate())
+                .investorType(domain.getInvestorType())
                 .updatedAt(getAnoAtualComoLocalDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()))
                 .provider(AuthProvider.LOCAL)
-                .role(Role.ADMIN)
+                .role(Role.USER)
+                .build();
+    }
+
+    public static Users convertGoogle(UsersSignUpDomain domain) {
+
+        return Users.builder()
+                .name(domain.getName())
+                .email(domain.getEmail())
+                .password(domain.getPassword())
+                .enabled(ActivityStatus.ACTIVE)
+                .birthDate(domain.getBirthDate())
+                .investorType(domain.getInvestorType())
+                .updatedAt(getAnoAtualComoLocalDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()))
+                .provider(AuthProvider.GOOGLE)
+                .role(Role.USER)
                 .build();
     }
 

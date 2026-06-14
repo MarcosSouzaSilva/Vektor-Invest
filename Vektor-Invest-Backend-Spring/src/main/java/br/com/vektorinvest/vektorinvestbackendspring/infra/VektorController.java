@@ -6,6 +6,7 @@ import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.*;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.interfaces.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -60,13 +61,13 @@ public class VektorController {
     // ----------------------------
 
     @GetMapping("/signUp")
-    public ModelAndView showSignUpPage(UsersSignUpDomain usersSignUpDomain) {
-        return userSignUpUseCaseInterface.showSignUpPage(usersSignUpDomain);
+    public ModelAndView showSignUpPage(UsersSignUpDomain usersSignUpDomain, HttpSession httpSession) {
+        return userSignUpUseCaseInterface.showSignUpPage(usersSignUpDomain, httpSession);
     }
 
     @PostMapping("/signUp")
-    public ModelAndView processSignUp(@Valid @ModelAttribute("signUp") UsersSignUpDomain signUp, BindingResult bindingResult, HttpServletResponse response) {
-        return userSignUpUseCaseInterface.processSignUp(signUp, bindingResult, response);
+    public ModelAndView processSignUp(@Valid @ModelAttribute("signUp") UsersSignUpDomain signUp, BindingResult bindingResult, HttpSession httpSession) {
+        return userSignUpUseCaseInterface.processSignUp(signUp, bindingResult, httpSession);
     }
 
     @GetMapping("/login")

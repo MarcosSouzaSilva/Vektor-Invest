@@ -1,6 +1,8 @@
 package br.com.vektorinvest.vektorinvestbackendspring.data.entity;
 
+import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.ActivityStatus;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.AuthProvider;
+import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.InvestorType;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,8 +36,9 @@ public class Users implements Serializable {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Boolean enabled;
+    private ActivityStatus enabled;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Stocks> stocks = new ArrayList<>();
@@ -53,6 +56,10 @@ public class Users implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AuthProvider provider; // LOCAL ou GOOGLE
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private InvestorType investorType;
 
     @Column(nullable = false)
     @CreationTimestamp

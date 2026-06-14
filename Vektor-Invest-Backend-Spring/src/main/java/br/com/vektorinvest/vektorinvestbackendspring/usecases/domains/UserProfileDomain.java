@@ -1,6 +1,9 @@
 package br.com.vektorinvest.vektorinvestbackendspring.usecases.domains;
 
+import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.InvestorType;
 import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -25,6 +28,10 @@ public class UserProfileDomain {
 
     @Column(nullable = false)
     private LocalDate createdAt;
+
+    @NotNull(message = "O campo investorType é obrigatório !")
+    @Enumerated(EnumType.STRING)
+    private InvestorType investorType;
 
 
 }

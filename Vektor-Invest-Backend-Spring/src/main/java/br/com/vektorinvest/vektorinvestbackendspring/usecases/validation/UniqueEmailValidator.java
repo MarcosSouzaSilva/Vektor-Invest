@@ -26,7 +26,7 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
 
         if (usersRepository.findByEmail(email).isPresent()) {
 
-            //context.disableDefaultConstraintViolation(); // substituindo pra mensagem default que coloquei
+            //context.disableDefaultConstraintViolation(); // substituindo pra mensagem default que coloquei la
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
                     .addConstraintViolation();
             return false; // lanca mensagem

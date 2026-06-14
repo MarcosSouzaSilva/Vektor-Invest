@@ -5,28 +5,30 @@ import br.com.vektorinvest.vektorinvestbackendspring.data.entity.Users;
 import br.com.vektorinvest.vektorinvestbackendspring.data.mapper.IAResponseMapper;
 import br.com.vektorinvest.vektorinvestbackendspring.data.mapper.StocksMapper;
 import br.com.vektorinvest.vektorinvestbackendspring.data.repository.*;
-import br.com.vektorinvest.vektorinvestbackendspring.infra.security.ConfigSecurity;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.*;
-import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.AuthProvider;
-import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.Role;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.gateway.UserGateway;
 import br.com.vektorinvest.vektorinvestbackendspring.utils.UserUtils;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,12 +36,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import static br.com.vektorinvest.vektorinvestbackendspring.data.mapper.UserDataMapper.getAnoAtualComoLocalDate;
-
 @Component
 @AllArgsConstructor
 @Log4j2
-public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserRequest, OAuth2User>, AuthenticationSuccessHandler {
 
     private final UsersRepository usersRepository;
 
@@ -48,8 +48,6 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
     private final IAResponseRepository iaResponseRepository;
 
     private final AllStocksRepository allStocksRepository;
-
-    private final PasswordEncoder passwordEncoder;
 
     private ModelAndView safeExecute(Supplier<ModelAndView> action) {
         try {
@@ -84,8 +82,8 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
 
 
     @Override
-    public Users registerUser(Users user) {
-        return usersRepository.save(user);
+    public void registerUser(Users user) {
+        usersRepository.save(user);
     }
 
     @Override
@@ -93,10 +91,10 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
 
         var userOpt = usersRepository.findByEmail(userDomain.getEmail());
 
-
         Users user = userOpt.get();
 
         user.setUpdatedAt(LocalDate.now());
+
         return usersRepository.save(user);
     }
 
@@ -122,7 +120,7 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
 
             var userSession = UserUtils.getUserOrThrow(usersRepository);
 
-            var userDomain = UserProfileDomain.builder().name(userSession.getName()).email(userSession.getEmail()).birthDate(userSession.getBirthDate()).createdAt(userSession.getCreatedAt()).build();
+            var userDomain = UserProfileDomain.builder().name(userSession.getName()).email(userSession.getEmail()).birthDate(userSession.getBirthDate()).createdAt(userSession.getCreatedAt()).investorType(userSession.getInvestorType()).build();
 
             mv.addObject("user", userDomain);
 
@@ -159,6 +157,9 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
 
             edit.setName(user.getName());
             edit.setBirthDate(user.getBirthDate());
+            edit.setEmail(user.getEmail());
+            edit.setInvestorType(user.getInvestorType());
+            edit.setPassword(user.getPassword());
 
             mv.addObject("usuario", edit);
             return mv;
@@ -171,7 +172,7 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
         Users user = UserUtils.getUserOrThrow(usersRepository);
 
         user.setName(edit.getName());
-        user.setBirthDate(edit.getBirthDate());
+        user.setInvestorType(edit.getInvestorType());
         user.setUpdatedAt(LocalDate.now());
 
         return usersRepository.save(user);
@@ -226,26 +227,29 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
 
         OAuth2User oauthUser = new DefaultOAuth2UserService().loadUser(request);
 
-        String email = oauthUser.getAttribute("email");
-
-        Users user = usersRepository.findByEmail(email)
-                .orElseGet(() -> {
-                    Users newUser = new Users();
-                    newUser.setEmail(email);
-                    newUser.setName(oauthUser.getAttribute("name"));
-                    newUser.setBirthDate(LocalDate.of(2000, 5, 10));
-                    newUser.setEnabled(true);
-                    newUser.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
-                    newUser.setProvider(AuthProvider.GOOGLE);
-                    newUser.setUpdatedAt(getAnoAtualComoLocalDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()));
-                    newUser.setRole(Role.USER);
-                    return usersRepository.save(newUser);
-                });
-
         return new DefaultOAuth2User(
-                List.of(new SimpleGrantedAuthority("USER")),
-                oauthUser.getAttributes(),
-                "email"
+                List.of(new SimpleGrantedAuthority("USER")), oauthUser.getAttributes(), "email"
         );
+    }
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
+
+        String email = oauthUser.getAttribute("email");
+        String name = oauthUser.getAttribute("name");
+
+        if (usersRepository.findByEmail(email).isPresent()) {
+            System.out.println("dskdkd " + usersRepository.findByEmail(email).get().getRole());
+            response.sendRedirect("/profile");
+
+        } else {
+
+            request.getSession().setAttribute("googleName", name);
+            request.getSession().setAttribute("googleEmail", email);
+            request.getSession().setAttribute("google", "google");
+
+            response.sendRedirect("/signUp");
+        }
     }
 }

@@ -1,7 +1,6 @@
 package br.com.vektorinvest.vektorinvestbackendspring.usecases.domains;
 
-import br.com.vektorinvest.vektorinvestbackendspring.usecases.validation.MinAge;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.InvestorType;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,10 +20,15 @@ public class UsersEditDomain {
     @NotNull(message = "O campo nome é obrigatório")
     private String name;
 
-    @NotNull(message = "O campo birthdate é obrigatório")
-    @MinAge(18)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthDate;
+
+    private String email;
+
+    @NotNull(message = "O campo investorType é obrigatório")
+    private InvestorType investorType;
+
+    private String password;
 
 
 

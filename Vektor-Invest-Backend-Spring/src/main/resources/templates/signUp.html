@@ -67,8 +67,10 @@
                             <input type="password" th:field="*{password}" placeholder="Mínimo 6 caracteres" min="6" max="12" required>
 
                             <button type="button" class="password-toggle" onclick="togglePassword('password')">
-                                <span >👁️</span>
+                                <span>👁️</span>
                             </button>
+
+                            <span th:if="${param.error}" class="error"></span>
 
                         </div>
 
@@ -82,15 +84,16 @@
                         <span th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="error"></span>
                     </div>
 
-                    <!-- <div class="form-group">
-                         <label for="investorProfile">Perfil de Investidor</label>
-                         <select id="investorProfile" name="investorProfile" required>
-                             <option value="">Selecione seu perfil</option>
-                             <option value="conservador">Conservador - Baixo risco</option>
-                             <option value="moderado">Moderado - Risco equilibrado</option>
-                             <option value="arrojado">Arrojado - Alto risco/retorno</option>
-                         </select>
-                     </div>-->
+                    <div class="form-group">
+                        <label for="investorProfile">Perfil de Investidor</label>
+                        <select id="investorProfile" name="investorProfile" th:field="*{investorType}" required>
+                            <option value="">Selecione seu perfil</option>
+                            <option th:each="profile : ${T(br.com.vektorinvest.vektorinvestbackendspring.usecases.enums.InvestorType).values()}"
+                                th:value="${profile}"
+                                th:text="${profile.investorType}">
+                            </option>
+                        </select>
+                    </div>
 
                     <div class="form-options">
 

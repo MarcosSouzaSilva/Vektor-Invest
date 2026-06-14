@@ -57,7 +57,7 @@
                 <div class="profile-info">
                     <h1 id="userName" th:text="${usuario.name}"></h1>
                     <p id="userEmail" th:text="${usuario.email}"></p>
-                    <span class="profile-badge" id="investorProfile">Investidor Moderado(Exemplo)</span>
+                    <span class="profile-badge" th:text="${usuario.investorType.investorType}"></span>
                 </div>
             </div>
             <div class="profile-actions">
@@ -75,14 +75,16 @@
                     <span class="stat-change-profile positive">+<span th:text="${countRequestsByUserInWeek}"></span> esta semana</span>
                 </div>
             </div>
+
             <div class="stat-card-profile">
                 <div class="stat-icon-profile">⭐</div>
                 <div class="stat-content-profile">
-                    <h3 id="favoriteStocks">3</h3>
+                    <h3 id="favoriteStocks">0</h3>
                     <p>Ações Favoritas</p>
-                    <span class="stat-change-profile neutral" th:text="${analyseTop3Stocks}"></span>
+                    <span class="stat-change-profile neutral" th:text="${analyseTop3Stocks}">0</span>
                 </div>
             </div>
+
             <div class="stat-card-profile">
                 <div class="stat-icon-profile">📅</div>
                 <div class="stat-content-profile">
