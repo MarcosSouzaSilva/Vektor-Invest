@@ -1,21 +1,46 @@
 version: "3.8"
 
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-service
+    env_file:
+      - .env
     environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin123
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  python-service:
+    build:
+      context: ../Vektor-Invest-Backend-Python/app
+      dockerfile: Dockerfile
+    container_name: python-service
     restart: unless-stopped
+    env_file:
+      - .env
+
+  java-app:
+    build: .
+    container_name: java-service
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
 
 volumes:
-  rabbitmq_data:
-
-
-#amqp://admin:admin123@localhost:5672 vou precisar usar
+  mysql_data:

@@ -1,8 +1,8 @@
-FROM openjdk:17
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY target/app.jar app.jar
+COPY target/Vektor-Invest-Backend-Spring-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 

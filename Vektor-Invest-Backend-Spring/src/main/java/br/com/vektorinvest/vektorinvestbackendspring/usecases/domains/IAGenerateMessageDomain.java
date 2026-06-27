@@ -30,7 +30,7 @@ public class IAGenerateMessageDomain {
 
     private String roe;
 
-    private String investorType;
+    private String tipoDeInvestidor;
 
     private List<String> pontosPositivos;
 

@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: ${URL_DATABASE_MYSQL}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: marcossouza144
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  session:
+    secret: ${SESSION_SECRET}

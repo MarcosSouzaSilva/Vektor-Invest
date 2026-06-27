@@ -34,10 +34,10 @@ public class ConfigPathSecurity {
     @Autowired
     private CustomUserDetailsService detailsService;
 
-    @Value("${session.secret}")
+    @Value("${SESSION_SECRET}")
     private String sessionSecret;
 
-    @Value("${time.rememberMe}")
+    @Value("${TIME_REMEMBER_ME}")
     private Integer timeSessionToRememberMe;
 
     @Bean

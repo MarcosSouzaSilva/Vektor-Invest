@@ -20,13 +20,12 @@ public class IAResponseUseCaseImpl implements IAResponseUseCase {
 
     private final UserGateway userGateway;
 
-    @Value("${python.api.url}")
-    private String urlPythonApi;
+
 
     @Override
     public ModelAndView showPage(String stock) {
         IAGenerateMessageDomain response = webClient.get()
-                .uri(urlPythonApi +"/analise/"+ stock)
+                .uri("localhost:5000" +"/analise/"+ stock)
                 .retrieve()
                 .bodyToMono(IAGenerateMessageDomain.class)
                 .block();

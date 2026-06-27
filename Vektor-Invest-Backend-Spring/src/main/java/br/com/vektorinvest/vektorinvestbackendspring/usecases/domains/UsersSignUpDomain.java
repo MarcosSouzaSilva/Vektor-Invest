@@ -27,8 +27,7 @@ public class UsersSignUpDomain {
     private String name;
 
     @NotNull(message = "O campo Email é obrigatório !")
-    //@Pattern(regexp = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", message = "Email inválido, tente novamente !")
-    @Email(message = "jnkweffef")
+    @Email
     @UniqueEmail
     private String email;
 
