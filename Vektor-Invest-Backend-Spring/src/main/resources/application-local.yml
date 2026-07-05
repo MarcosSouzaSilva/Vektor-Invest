@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${URL_DATABASE_MYSQL}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/vektor?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: marcossouza144
     driver-class-name: com.mysql.cj.jdbc.Driver

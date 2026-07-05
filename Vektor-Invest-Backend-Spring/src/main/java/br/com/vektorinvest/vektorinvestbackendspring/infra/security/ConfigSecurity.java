@@ -34,6 +34,7 @@ public class ConfigSecurity implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        System.err.println(this.role.name());
         return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
     }
 

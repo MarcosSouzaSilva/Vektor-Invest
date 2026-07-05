@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VektorInvestBackendSpringApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(VektorInvestBackendSpringApplication.class, args);
     }
 

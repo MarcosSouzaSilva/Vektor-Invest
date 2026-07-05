@@ -32,7 +32,7 @@ import java.io.IOException;
 public class ConfigPathSecurity {
 
     @Autowired
-    private CustomUserDetailsService detailsService;
+    private CustomUserDetails detailsService;
 
     @Value("${SESSION_SECRET}")
     private String sessionSecret;
@@ -42,6 +42,7 @@ public class ConfigPathSecurity {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, PersistentTokenRepository tokenRepository, UsersDataImpl usersData) throws Exception {
+
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
@@ -55,7 +56,7 @@ public class ConfigPathSecurity {
                                 "/js/**",
                                 "/img/**"
                         ).permitAll()
-                        .requestMatchers("/dashboard").hasRole("ADMIN")
+                        .requestMatchers("/dashboard/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -104,13 +105,7 @@ public class ConfigPathSecurity {
         return repo;
     }
 
-    @Bean
-    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
-        return request -> {
-            OAuth2User oauthUser = new DefaultOAuth2UserService().loadUser(request);
-            return oauthUser;
-        };
-    }
+
 
 
     @Bean

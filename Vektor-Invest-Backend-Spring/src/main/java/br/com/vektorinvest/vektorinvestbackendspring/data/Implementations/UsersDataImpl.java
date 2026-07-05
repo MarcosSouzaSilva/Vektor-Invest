@@ -5,6 +5,7 @@ import br.com.vektorinvest.vektorinvestbackendspring.data.entity.Users;
 import br.com.vektorinvest.vektorinvestbackendspring.data.mapper.IAResponseMapper;
 import br.com.vektorinvest.vektorinvestbackendspring.data.mapper.StocksMapper;
 import br.com.vektorinvest.vektorinvestbackendspring.data.repository.*;
+import br.com.vektorinvest.vektorinvestbackendspring.infra.security.ConfigSecurity;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.*;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.gateway.UserGateway;
 import br.com.vektorinvest.vektorinvestbackendspring.utils.UserUtils;
@@ -15,8 +16,10 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -33,6 +36,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -72,6 +76,7 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
         mv.addObject("allStockIndex", allStocksRepository.findAll());
 
         Users user = UserUtils.getUserOrThrow(usersRepository);
+
 
         if (user != null) {
             mv.addObject("name", user.getName());
@@ -227,20 +232,36 @@ public class UsersDataImpl implements UserGateway, OAuth2UserService<OAuth2UserR
 
         OAuth2User oauthUser = new DefaultOAuth2UserService().loadUser(request);
 
-        return new DefaultOAuth2User(
-                List.of(new SimpleGrantedAuthority("USER")), oauthUser.getAttributes(), "email"
-        );
+        System.err.println(oauthUser.getAuthorities());
+
+        String email = oauthUser.getAttribute("email");
+
+        Users user = usersRepository.findByEmail(email)
+                .orElseThrow();
+
+        return new DefaultOAuth2User(List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())), oauthUser.getAttributes(), "email");
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+
         OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
 
         String email = oauthUser.getAttribute("email");
         String name = oauthUser.getAttribute("name");
 
-        if (usersRepository.findByEmail(email).isPresent()) {
-            System.out.println("dskdkd " + usersRepository.findByEmail(email).get().getRole());
+        Optional<Users> optionalUser = usersRepository.findByEmail(email);
+
+        if (optionalUser.isPresent()) {
+
+            Users user = optionalUser.get();
+
+            ConfigSecurity principal = new ConfigSecurity(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getRole());
+
+            Authentication newAuthentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+
             response.sendRedirect("/profile");
 
         } else {

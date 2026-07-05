@@ -32,7 +32,7 @@ public interface UsersRepository extends JpaRepository <Users, UUID> {
         UPPER(LEFT(SUBSTRING_INDEX(TRIM(u.name), ' ', 1), 1)),
         UPPER(LEFT(SUBSTRING_INDEX(TRIM(u.name), ' ', -1), 1))
     )
-    FROM Users u
+    FROM users u
     WHERE u.id = :id
 """, nativeQuery = true)
     String findIniciaisByUserId(@Param("id") UUID id);
@@ -48,7 +48,7 @@ public interface UsersRepository extends JpaRepository <Users, UUID> {
 
     @Query(value = """
     SELECT COUNT(*) 
-    FROM Users 
+    FROM users 
     WHERE created_at >= DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
     AND created_at < DATE_ADD(DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01'), INTERVAL 1 MONTH)
 """, nativeQuery = true)

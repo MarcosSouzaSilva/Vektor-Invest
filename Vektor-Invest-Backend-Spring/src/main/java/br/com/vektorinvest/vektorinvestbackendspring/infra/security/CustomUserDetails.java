@@ -11,15 +11,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Log4j2
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetails implements UserDetailsService {
 
     @Autowired
-    private UsersRepository userRepository;
+    private UsersRepository usersRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        Users user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Users user = usersRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         log.info("Info Users");
         log.info("Name " + user.getName());
@@ -34,5 +33,4 @@ public class CustomUserDetailsService implements UserDetailsService {
                 user.getRole()
         );
     }
-
 }

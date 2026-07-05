@@ -1,6 +1,5 @@
 package br.com.vektorinvest.vektorinvestbackendspring.usecases.service.actions.users;
 
-import br.com.vektorinvest.vektorinvestbackendspring.infra.security.ConfigSecurity;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.domains.IAGenerateMessageDomain;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.gateway.UserGateway;
 import br.com.vektorinvest.vektorinvestbackendspring.usecases.interfaces.IAResponseUseCase;
@@ -20,12 +19,13 @@ public class IAResponseUseCaseImpl implements IAResponseUseCase {
 
     private final UserGateway userGateway;
 
-
+    @Value("${PYTHON_SERVICE_URL:http://localhost:5000}")
+    private String urlPythonApi;
 
     @Override
     public ModelAndView showPage(String stock) {
         IAGenerateMessageDomain response = webClient.get()
-                .uri("localhost:5000" +"/analise/"+ stock)
+                .uri(urlPythonApi +"/analise/"+ stock)
                 .retrieve()
                 .bodyToMono(IAGenerateMessageDomain.class)
                 .block();
